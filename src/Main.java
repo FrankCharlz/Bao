@@ -6,10 +6,9 @@ public class Main {
 
     public static void main(String args[]) {
 
-        Board board = new Board();
-        board.show();
-        board.start(3, 2);
-
+        Pool pool = new Pool();
+        pool.zungusha(2);
+        pool.showOff();
     }
 
 }
