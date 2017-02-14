@@ -6,49 +6,40 @@ public class Board {
 
     public static final int BOTTOM_SIDE = 0x0;
     public static final int TOP_SIDE = 0x0001;
-    private Side top, bottom;
-    Pit[] pits = new Pit[16];
+    private Pool top, bottom;
 
     public Board() {
-        top = new Side(TOP_SIDE);
-        bottom = new Side(BOTTOM_SIDE);
+        top = new Pool(1, this);
+        bottom = new Pool(0, this);
 
-        for (int i = 0; i < 16; i++) {
-            pits[i] = new Pit(i/4, i%4, (i/8 == 0) ? TOP_SIDE : BOTTOM_SIDE);
-        }
+        bottom.clear();
+        top.clear();
 
+        bottom.put(0, 2);
+        bottom.put(2, 1);
+        top.put(5, 1);
+        top.put(10, 1);
+
+        show();
+
+        bottom.zungusha(0);
 
 
     }
 
     public void show() {
-        System.out.println("\t\t\t\t\tTOP");
-        for (int i = 0; i < pits.length; i++) {
-            pits[i].show();
-            System.out.print("\t");
-            if ((i+1)%4 == 0) System.out.print("\n");
-            if (i == 7) System.out.print("----------------------------------------------------------------\n");
-        }
-        System.out.println("\t\t\t\t\tBOTTOM\n\n\n");
-
-
-
+        System.out.print("TOP --"+top.countTotal()+"--");
+        System.out.print("\n--------------------------------------------------------------\n");
+        top.showOff();
+        bottom.showOff();
+        System.out.print("BOTTOM --"+bottom.countTotal()+"--");
 
     }
 
-
-    private int getStartIndex(int pos, int[] sequence) {
-        for (int i = 0; i < sequence.length; i++) {
-            if (sequence[i] == pos) return i;
-        }
-        return -1;
-    }
-
-    public void start(int row, int col) {
-        int sequence[] = (row > 1) ? bottom.getSequence() : top.getSequence(); //if row 0 or 1 top side else buttom side
-        int pos = row * 4 + col;
-        int start_index = getStartIndex(pos, sequence);
-        System.out.println("pos = "+pos+" seq_index = "+start_index);
+    public int kula(int side, int position) {
+        int opposite = Pool.PITS_COUNT/2 - position - 1; //other side position
+        if (side == top.getSide()) return bottom.nikule(opposite);
+        else return top.nikule(opposite);
 
 
     }

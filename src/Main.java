@@ -6,9 +6,8 @@ public class Main {
 
     public static void main(String args[]) {
 
-        Pool pool = new Pool();
-        pool.zungusha(2);
-        pool.showOff();
+        Board board = new Board();
+        board.show();
     }
 
 }
