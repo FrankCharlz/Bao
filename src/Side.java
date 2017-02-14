@@ -7,11 +7,6 @@ public class Side {
     int[] sequence;
 
     public Side(int sideId) {
-        this.sideId = sideId;
-        if (sideId == Board.TOP_SIDE)
-            sequence = new int[] {7,6,5,4,0,1,2,3};
-        else
-            sequence = new int[] {8,9,10,11,15,14,13,12};
 
     }
 

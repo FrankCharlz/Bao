@@ -41,7 +41,7 @@ public class Pit {
     }
 
     public void show() {
-        char side = (sideId == Board.BOTTOM_SIDE) ? 'B' : 'T';
-        System.out.print(side+"_r"+row+"_c"+column+"_k"+keteCount+"_id"+id);
+        //char side = (sideId == Board.BOTTOM_SIDE) ? 'B' : 'T';
+        //System.out.print(side+"_r"+row+"_c"+column+"_k"+keteCount+"_id"+id);
     }
 }

@@ -1,11 +1,13 @@
+import java.util.ArrayList;
+
 /**
  * Created by Frank on 14-Feb-17.
  */
 public class Pool {
 
     public static final int PITS_COUNT = 0b10000;
-    private static final int TYPE_TOP = 0x000feed;
-    private static final int TYPE_BOTTOM = 0xceed;
+    private static final int TYPE_TOP = 0x000001;
+    private static final int TYPE_BOTTOM = 0x000;
     private final int sideId;
     private Board board;
     int pits[] = new int[PITS_COUNT];
@@ -19,7 +21,7 @@ public class Pool {
 
     private void init() {
         for (int i = 0; i < PITS_COUNT; i++) {
-            pits[i] = 1;
+            pits[i] = 4;
         }
     }
 
@@ -116,7 +118,7 @@ public class Pool {
         return board;
     }
 
-    public int getSide() {
+    public int getSideId() {
         return sideId;
     }
 
@@ -131,5 +133,13 @@ public class Pool {
         int k = pits[position];
         pits[position] = 0;
         return k;
+    }
+
+    public ArrayList<Integer> getFullPits() {
+        ArrayList<Integer> full_pits = new ArrayList<>(16);
+        for (int i = 0; i < PITS_COUNT; i++) {
+            if (pits[i] > 0) full_pits.add(i);
+        }
+        return full_pits;
     }
 }
