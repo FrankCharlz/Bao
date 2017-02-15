@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Queue;
+import java.util.Random;
 
 /**
  * Created by Frank on 14-Feb-17.
@@ -40,14 +42,14 @@ public class Pool {
 
         //kama 1 kafa
         if (pits[position] > 1) {
-            System.out.println("Dondoka at : "+position);
+            //System.out.println("Dondoka at : "+position);
             // if in first row then kula
             if (position < PITS_COUNT/2) {
                 pits[position] += getBoard().kula(sideId, position);
             }
             zungusha(position);
         } else {
-            System.out.println("Kafa at : "+position);
+            //System.out.println("Kafa at : "+position);
         }
 
     }
@@ -129,7 +131,7 @@ public class Pool {
             position = PITS_COUNT - position - 1;
         }
 
-        System.out.print("Naliwa at "+position+"\n");
+        //System.out.print("Naliwa at "+position+"\n");
         int k = pits[position];
         pits[position] = 0;
         return k;
@@ -141,5 +143,49 @@ public class Pool {
             if (pits[i] > 0) full_pits.add(i);
         }
         return full_pits;
+    }
+
+    public void randomize() {
+        int count = countTotal();
+        clear();
+        int kete;
+        Random random = new Random();
+        for (int i = 0; i < PITS_COUNT*4; i++) {
+            kete = random.nextInt(4);
+            pits[random.nextInt(PITS_COUNT)] += kete;
+            count -= kete;
+            if (count < 4) break;
+        }
+        pits[random.nextInt(PITS_COUNT)] += count;
+    }
+
+    public int solve() {
+        ArrayList<Integer> flist = getFullPits();
+        int optimum = flist.get(flist.size()/2);
+
+        int pcount = 0, count;
+        for(int pos : flist) {
+            board.save(); //todo: can be saved once only
+            zungusha(pos);
+            count = countTotal();
+            //System.out.println("Pos: "+pos+" Count: "+count+" expose: "+countFront());
+            if (count > pcount) {
+                pcount = count;
+                optimum = pos;
+            }
+            board.restore();
+        }
+        return optimum;
+    }
+
+    public int[] getPits() {
+        return pits;
+    }
+
+    public void addFromQueeu(Queue<Integer> queue) {
+        // todo: handle exceptions, short queue
+        for (int i = 0; i < PITS_COUNT; i++) {
+            this.pits[i] = queue.poll();
+        }
     }
 }

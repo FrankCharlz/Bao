@@ -1,9 +1,14 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+
 /**
  * Created by Frank on 10-Feb-17.
  */
 public class Board {
 
     private Pool top, bottom;
+    private Queue<Integer> queue = new LinkedList<Integer>();
 
     public Board() {
         top = new Pool(1, this);
@@ -32,11 +37,23 @@ public class Board {
         else top.zungusha(pos);
     }
 
-    public Pool getBottom() {
-        return bottom;
-    }
 
     public Pool getSide(int side) {
         return side == 0 ? bottom : top;
+    }
+
+    public void save() {
+        for (int n : getSide(0).getPits()) {
+            queue.add(n);
+        }
+        for (int n : getSide(1).getPits()) {
+            queue.add(n);
+        }
+    }
+
+    public void restore() {
+        getSide(0).addFromQueeu(queue);
+        getSide(1).addFromQueeu(queue);
+
     }
 }
